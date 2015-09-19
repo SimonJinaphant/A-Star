@@ -2,14 +2,13 @@
 #include <cstdlib>
 
 int main(){
-	Grid world(10,10);
-	
+	Grid world(5, 5);
+
 	//Play around by toggling walls at certain coordinates
-	world.toggleWall(0,1);
-	//world.toggleWall(1,0);
-
-
+	world.updateCost(2, 2, PF_INFINITY);
 	world.generatePath();
+
+	printf("PATH IS: \n");
 	world.printPath();
 
 	system("PAUSE");

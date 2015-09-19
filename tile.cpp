@@ -1,82 +1,39 @@
 #include "tile.h"
 
-Tile::Tile(){
 
+Tile::Tile(unsigned int x, unsigned int y, double cost) : 
+	x(x), 
+	y(y)
+{
+
+	this->cost = cost;
+	this->g = 0;
+	this->h = 0;
+
+	this->isClose = false;
+	this->isOpen = false;
+
+	this->parent = 0;
 }
 
-Tile::Tile(unsigned int x, unsigned int y, bool isWall){
-	this->x_ = x;
-	this->y_ = y;
-	this->isWall_ = isWall;
+Tile::Tile(const Tile &copy) : 
+	x(copy.x),
+	y(copy.y)
+{
+	this->cost = copy.cost;
+	this->h = copy.h;
+	this->g = copy.g;
+
+	this->isClose = copy.isClose;
+	this->isOpen = copy.isOpen;
 	
-	this->isOpened_ = false;
-	this->heuristic = 0;
-	this->movementCost = 0;
-	this->parent_ = 0;
-}
-
-Tile::Tile(const Tile &copyTile){
-	this->x_ = copyTile.x_;
-	this->y_ = copyTile.y_;
-	this->isWall_ = copyTile.isWall_;
-
-	this->isOpened_ = copyTile.isOpened_;
-	this->heuristic = copyTile.heuristic;
-	this->movementCost = copyTile.movementCost;
-
 	//Shallow copy
-	this->parent_ = copyTile.parent_;
+	this->parent = copy.parent;
 }
 
 
-unsigned int Tile::getX(){
-	return x_;
-}
-
-unsigned int Tile::getY(){
-	return y_;
-}
-
-bool Tile::isWall(){
-	return isWall_;
-}
-
-bool Tile::isClosed(){
-	return isClosed_ == true;
-}
-
-void Tile::close(){
-	isClosed_ = true;
-}
-
-bool Tile::isOpened(){
-	return isOpened_ == true;
-}
-
-void Tile::open(){
-	isOpened_ = true;
-}
-
-void Tile::toggleWall(){
-	isWall_ = !isWall_;
-}
-
-void Tile::setParent(Tile* parent){
-	this->parent_ = parent;
-}
-
-Tile* Tile::getParent(){
-	return parent_;
-}
-
-
-std::ostream& operator<<(std::ostream& out, Tile*& tile){
-	//out << "(" << tile->x_ << ", " << tile->y_ << ", " << tile->heuristic << ", " << tile->movementCost <<")";
-	out << *tile;
-	return out;
-}
-
-std::ostream& operator<<(std::ostream& out, Tile& tile){
-	out << "(" << tile.x_ << ", " << tile.y_ << ", " << tile.heuristic << ", " << tile.movementCost <<")";
-	return out;
+void Tile::info(){
+	printf("[(%u, %u) C: %lf    H: %lf   G: %lf\n", 
+		this->x, this->y, this->cost, this->h, this->g
+	);
 }
