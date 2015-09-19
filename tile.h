@@ -44,7 +44,7 @@ struct Tile{
 		//To be used with the make_heap(), push_heap(), and pop_heap() functions
 		bool operator()(const Tile* left, const Tile* right) const {
 			//Returns the tile with the lowest g and h value
-			return (left->g + left->h) < (right->g + right->h);
+			return (left->g + left->h) > (right->g + right->h);
 		}
 	};
 

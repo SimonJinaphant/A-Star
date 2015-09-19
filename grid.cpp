@@ -9,7 +9,6 @@ Grid::Grid(unsigned int length, unsigned int width){
 			gridmap.push_back(Tile(x, y, STANDARD_COST));
 		}
 	}
-
 	
 	start = getTileAt(0, 0);
 	goal = getTileAt(width - 1, length - 1);
@@ -27,17 +26,18 @@ void Grid::computeShortestPath(){
 	while (open.size() != 0){
 
 		//CURRENT is a Tile* inside OPEN with the lowest G + H scores
+		pop_heap(open.begin(), open.end(), Tile::Compare());
 		Tile* current = open.back();
 		open.pop_back();
 
 		//Close the CURRENT tile to prevent it from being re-analysed again by another tile
 		current->isClose = true;
 		
-		std::cout << "Current tile: " << std::endl;
+		printf("Current tile: \n");
 		current->info();
 
 		if (current == start){
-			std::cout << "A path has been found!" << std::endl;
+			printf("A path has been found!\n");
 			while (start->parent != 0){
 				start->info();
 				start = start->parent;
@@ -96,14 +96,14 @@ void Grid::computeShortestPath(){
 						//Use the previously stored value to determine what to do with the updated neighbour
 						if (!isCurrentlyOpen){
 							//Since NEIGHBOUR was not inside OPEN beforehand, we add it to OPEN
-							printf("\tAdding:");
+							printf("\tAdding to OPEN:");
 							neighbour->info();
 							open.push_back(neighbour);
 							push_heap(open.begin(), open.end(), Tile::Compare());
 						}
 						else {
 							//NEIGHBOUR is already inside OPEN, we need to update it's priority in the queue
-							printf("\t Updating:");
+							printf("\t Updating priority:");
 							neighbour->info();
 							//Since I'm using pointers I don't need to remove it, update it, and add it back in
 							//Instead I can just update it and make the Priority Queue re-organize itself
@@ -118,8 +118,6 @@ void Grid::computeShortestPath(){
 
 		}
 	}
-
-	std::cout << "No path found :(" << std::endl;
 }
 
 bool Grid::withinMap(unsigned int x, unsigned int y){
@@ -130,14 +128,14 @@ bool Grid::withinMap(unsigned int x, unsigned int y){
 void Grid::calculateHeuristics(Tile*& tile){
 	//This is a calculation used to estimate the distance a tile and the goal tile
 
-	unsigned int dx = labs(tile->x - goal->x);
-	unsigned int dy = labs(tile->y - goal->y);
+	unsigned int dx = labs(tile->x - start->x);
+	unsigned int dy = labs(tile->y - start->y);
 
 	if (dx > dy){
 		std::swap(dx, dy);
 	}
 
-	return ((SQRT2 - 1) * dx + dy) * STANDARD_COST;
+	tile->h = ((SQRT2 - 1) * dx + dy) * STANDARD_COST;
 }
 
 double Grid::calculateCost(Tile*& tileA, Tile*& tileB){
