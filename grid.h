@@ -4,30 +4,32 @@
 #include <algorithm>
 #include <cmath>
 
+//PF_INFINITY is used to denote an obsticle
 #define PF_INFINITY INT_MAX
 #define SQRT2 1.4142135623
+#define STANDARD_COST 10.0
 
 class Grid{
 private:
+	/*
+		Gridmap - Contains the Tile as a 2D grid via a 1D array: given a pair of (x, y)
+				coordinates the corresponding index is f(x, y) = y * width + x
+	*/
 	std::vector<Tile> gridmap;
-	std::vector<Tile*> path;
 
 	Tile* start;
 	Tile* goal;
-
+	double length, width;
+	
 	void calculateHeuristics(Tile*& tile);
 	double calculateCost(Tile*& tileA, Tile*& tileB);
-
 
 	bool withinMap(unsigned int x, unsigned int y);
 	Tile* getTileAt(unsigned int x, unsigned int y);
 
-	double length, width;
-
 public:
 	Grid(unsigned int length, unsigned int width);
 
-	void printPath();
-	void generatePath();
+	void computeShortestPath();
 	void updateCost(unsigned int x, unsigned int y, double cost);
 };

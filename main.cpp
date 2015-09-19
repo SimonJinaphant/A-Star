@@ -6,10 +6,9 @@ int main(){
 
 	//Play around by toggling walls at certain coordinates
 	world.updateCost(2, 2, PF_INFINITY);
-	world.generatePath();
+	world.computeShortestPath();
 
 	printf("PATH IS: \n");
-	world.printPath();
 
 	system("PAUSE");
 	return 0;
