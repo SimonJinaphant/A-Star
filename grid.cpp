@@ -10,6 +10,7 @@ Grid::Grid(unsigned int length, unsigned int width){
 		}
 	}
 	
+	//TODO: Make the start and goal user defined
 	start = getTileAt(0, 0);
 	goal = getTileAt(width - 1, length - 1);
 }

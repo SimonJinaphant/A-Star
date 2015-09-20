@@ -4,10 +4,11 @@
 #include <algorithm>
 #include <cmath>
 
-//PF_INFINITY is used to denote an obsticle
+//PF_INFINITY is used to denote an obsticle cost
 #define PF_INFINITY INT_MAX
-#define SQRT2 1.4142135623
 #define STANDARD_COST 10.0
+#define SQRT2 1.4142135623
+
 
 class Grid{
 private:

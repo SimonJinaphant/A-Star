@@ -34,7 +34,7 @@ Tile::Tile(const Tile &copy) :
 
 void Tile::info(){
 	//Q: Why are using printf in C++?
-	//A: I find it easier to format the text compared to cout
+	//A: I find it easier to format the text with variable outputs than compared to cout
 
 	printf("[(%u, %u) C: %lf    H: %lf   G: %lf\n", 
 		this->x, this->y, this->cost, this->h, this->g
