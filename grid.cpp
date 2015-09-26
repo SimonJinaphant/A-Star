@@ -3,7 +3,8 @@
 Grid::Grid(unsigned int length, unsigned int width){
 	this->length = length;
 	this->width = width;
-
+	gridmap.reserve(length * width);
+	
 	for (unsigned int y = 0; y < length; y++){
 		for (unsigned int x = 0; x < width; x++){
 			gridmap.push_back(Tile(x, y, STANDARD_COST));
@@ -34,12 +35,12 @@ void Grid::computeShortestPath(){
 		//Close the CURRENT tile to prevent it from being re-analysed again by another tile
 		current->isClose = true;
 		
-		printf("Current tile: \n");
-		current->info();
+		//printf("Current tile: \n");
+		//current->info();
 
 		if (current == start){
 			printf("A path has been found!\n");
-			while (start->parent != 0){
+			while (start != 0){
 				start->info();
 				start = start->parent;
 			}
@@ -86,10 +87,10 @@ void Grid::computeShortestPath(){
 					if (!isCurrentlyOpen || newGValue < neighbour->g){
 						//(NEIGHBOUR is not in the OPEN list) OR (it's already in OPEN but we found a shorter path to it)
 
-						//Open/Reopen this neighbouring tile
+						//Open or reopen this neighbouring tile
 						neighbour->isOpen = true;
 
-						//Update the NEIGHBOUR'S cost and parents
+						//Update the NEIGHBOUR'S cost and parent pointer
 						neighbour->parent = current;
 						neighbour->g = newGValue;
 						calculateHeuristics(neighbour);
@@ -97,15 +98,15 @@ void Grid::computeShortestPath(){
 						//Use the previously stored value to determine what to do with the updated neighbour
 						if (!isCurrentlyOpen){
 							//Since NEIGHBOUR was not inside OPEN beforehand, we add it to OPEN
-							printf("\tAdding to OPEN:");
-							neighbour->info();
+							//printf("\tAdding to OPEN:");
+							//neighbour->info();
 							open.push_back(neighbour);
 							push_heap(open.begin(), open.end(), Tile::Compare());
 						}
 						else {
 							//NEIGHBOUR is already inside OPEN, we need to update it's priority in the queue
-							printf("\t Updating priority:");
-							neighbour->info();
+							//printf("\t Updating priority:");
+							//neighbour->info();
 							//Since I'm using pointers I don't need to remove it, update it, and add it back in
 							//Instead I can just update it and make the Priority Queue re-organize itself
 							make_heap(open.begin(), open.end(), Tile::Compare());

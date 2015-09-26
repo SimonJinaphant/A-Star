@@ -49,10 +49,13 @@ struct Tile{
 	//For convient, but naive, debugging purposes
 	void info() const;
 
+
+	//To be used with the make_heap(), push_heap(), and pop_heap() functions
 	const struct Compare{
-		//To be used with the make_heap(), push_heap(), and pop_heap() functions
+
+		//Returns the tile with the lowest g and h value
 		bool operator()(const Tile* left, const Tile* right) const {
-			//Returns the tile with the lowest g and h value
+
 			//Because the *_heap() functions operate as a MAX heap, we can turn it into a MIN heap
 			//by reversing the comparision, such that it sorts in the desecending order where
 			//the left element is larger than the right element.
