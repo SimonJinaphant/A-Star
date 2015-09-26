@@ -4,24 +4,31 @@
 struct Tile{
 	const unsigned int x, y;
 
-	/*	A tile/node in A* keeps track of 4 important information
+	/*	A tile in A* keeps track of 4 important information
 
-		G - Keeps track of the cost accumulated so far from the starting point
+		G - Total cost accumulated so far since we've moved from the starting point
 		
 		H - An estimation -doesn't have to be 100% accurate- of how much it 
 			would cost to move from here to the goal point.
 
-		Cost - The cost to move to this tile: If the cost is PF_INFINITY then it is
-				considered a wall/obsticle.
+		As we approach the goal tile, G will increase to the actual cost to traverse from start to goal,
+		while H will decrease since the distance to the goal is shortening.
+
+		Cost - The cost of moving to this tile, a low cost is more favourable than a high cost.
+				If the cost is PF_INFINITY then it is considered a wall/obsticle.
+
+				We could use a higher cost tiles to make certain areas of the map less preferable,
+				such as tiles located very close to the obsticals, so the resultant path doesn't 
+				get too close to these tiles unless they have to.				
 
 		Parent - A way to keep track of the path back to the starting point.
-				(Think of Linked-List keepng pointers to find the next Node)
+				(Think of Linked-List keeping pointers to find the next Node)
 	*/
 	double g, h, cost;
 	Tile* parent;
 	
 	/*
-		The following two booleans are for making this A* implementation simple,
+		The following two booleans are for making this specific A* implementation simple,
 		other implementations of A* will vary.
 
 		isClose - A boolean flag to indicate whether this tile is currently inside the
@@ -38,14 +45,17 @@ struct Tile{
 	Tile();
 	Tile(unsigned int x, unsigned int y, double cost);
 	Tile(const Tile &copyTile);
+
+	//For convient, but naive, debugging purposes
 	void info();
 
 	struct Compare{
 		//To be used with the make_heap(), push_heap(), and pop_heap() functions
 		bool operator()(const Tile* left, const Tile* right) const {
 			//Returns the tile with the lowest g and h value
-			//Because the _heap() functions operate as a max heap, we can make it a min heap
-			//by reversing the comparision such that it sorts in the opposite order.
+			//Because the *_heap() functions operate as a MAX heap, we can turn it into a MIN heap
+			//by reversing the comparision, such that it sorts in the desecending order where
+			//the left element is larger than the right element.
 			return (left->g + left->h) > (right->g + right->h);
 		}
 	};
