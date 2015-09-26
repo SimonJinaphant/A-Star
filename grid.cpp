@@ -121,7 +121,7 @@ void Grid::computeShortestPath(){
 	}
 }
 
-bool Grid::withinMap(unsigned int x, unsigned int y){
+bool Grid::withinMap(unsigned int x, unsigned int y) const{
 	//Determines if the coordinate is within the bounds of the grid map
 	return y >= 0 && y < length && x >= 0 && x < width;
 }
@@ -139,7 +139,7 @@ void Grid::calculateHeuristics(Tile*& tile){
 	tile->h = ((SQRT2 - 1) * dx + dy) * STANDARD_COST;
 }
 
-double Grid::calculateCost(Tile*& tileA, Tile*& tileB){
+double Grid::calculateCost(Tile*& tileA, Tile*& tileB) const{
 	if (tileA->cost == PF_INFINITY || tileB->cost == PF_INFINITY){
 		//Should prevent an obvious binary overflow
 		return PF_INFINITY;

@@ -9,7 +9,6 @@ int main(){
 	world.updateCost(2, 2, PF_INFINITY);
 	world.computeShortestPath();
 
-	printf("PATH IS: \n");
 
 	system("PAUSE");
 	return 0;

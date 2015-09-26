@@ -32,7 +32,7 @@ Tile::Tile(const Tile &copy) :
 }
 
 
-void Tile::info(){
+void Tile::info() const{
 	//Q: Why are using printf in C++?
 	//A: I find it easier to format the text with variable outputs than compared to cout
 
